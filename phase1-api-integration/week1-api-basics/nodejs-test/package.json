@@ -1,0 +1,19 @@
+{
+  "name": "week1-nodejs-test",
+  "version": "1.0.0",
+  "description": "DeepSeek API Node.js 测试示例",
+  "type": "module",
+  "main": "test-basic.js",
+  "scripts": {
+    "test": "node test-basic.js",
+    "test:stream": "node test-stream.js",
+    "test:conversation": "node test-conversation.js"
+  },
+  "keywords": ["deepseek", "ai", "api"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "openai": "^4.68.4",
+    "dotenv": "^16.4.7"
+  }
+}
