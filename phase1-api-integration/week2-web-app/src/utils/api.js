@@ -36,19 +36,27 @@ export async function sendMessage(message, onChunk) {
     // 读取流式响应
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
+    let buffer = ''; // 缓存未完成的行
 
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
 
-      // 解码数据块
-      const chunk = decoder.decode(value);
-      const lines = chunk.split('\n').filter(line => line.trim() !== '');
+      // 解码数据块（使用流式模式处理多字节字符）
+      const chunk = decoder.decode(value, { stream: true });
+      buffer += chunk;
+
+      // 按行分割，保留最后一个可能不完整的行
+      const lines = buffer.split('\n');
+      buffer = lines.pop() || ''; // 保存最后一个不完整的行
 
       for (const line of lines) {
+        const trimmedLine = line.trim();
+        if (!trimmedLine) continue;
+
         // SSE 格式：data: {...}
-        if (line.startsWith('data: ')) {
-          const data = line.slice(6);
+        if (trimmedLine.startsWith('data: ')) {
+          const data = trimmedLine.slice(6);
 
           // 流结束标志
           if (data === '[DONE]') {
@@ -63,7 +71,7 @@ export async function sendMessage(message, onChunk) {
               onChunk(content);
             }
           } catch (e) {
-            console.warn('解析 JSON 失败:', e);
+            console.warn('解析 JSON 失败:', e.message);
           }
         }
       }
