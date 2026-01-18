@@ -1,0 +1,28 @@
+{
+  "name": "week3-langchain",
+  "version": "1.0.0",
+  "description": "Week 3 - LangChain.js 学习项目",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "example1": "node examples/01-basic-chat.js",
+    "example2": "node examples/02-prompt-template.js",
+    "example3": "node examples/03-conversation-memory.js",
+    "example4": "node examples/04-conversation-chain.js",
+    "example4:demo": "node examples/04-conversation-chain.js --demo"
+  },
+  "keywords": [
+    "langchain",
+    "ai",
+    "chatbot",
+    "deepseek"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@langchain/core": "^0.1.0",
+    "@langchain/openai": "^0.0.19",
+    "langchain": "^0.1.0",
+    "dotenv": "^16.3.1"
+  }
+}
